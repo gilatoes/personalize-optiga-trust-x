@@ -50,8 +50,10 @@ warning: for example close your terminal window instead of calling exit
 $ pacman -Su
 
 # Software tools installation
-$ pacman -S base-devel gcc vim cmake git
+$ pacman -S base-devel gcc vim cmake git python2
 ```
+
+[Install PIP instruction](https://docs.aws.amazon.com/cli/latest/userguide/install-linux.html)
 
 ```Git
 # Get the latest source code from GitHub
@@ -562,7 +564,6 @@ arn:aws:iot:us-west-2:065398228892:cert/8f2989f94682a7ed15f0a5e6d9e18479fc2c5dd0
 $ aws iot attach-thing-principal --thing-name "IoT_Object_With_Trust_X" --principal $AWS_ARN
 
 ```
-
 
 A rather dumb method to attach the policy using the console.<br>
 **Note:** This is a very insecure policy and should be improved.
