@@ -35,17 +35,26 @@ Download and run the installer [Msys2 "i686" for 32-bit Windows](https://www.msy
 
 MSYS2 is based on Cygwin (POSIX compatibility layer) which enables Linux tools and software to be executed in Windows environment.
 
-```SoftwareinstallationinMSYS2
+```Softwareinstallation
+# Synchronize, download a fresh copy of the master package database and update all packages
 $ pacman -Syu
-$ pacman -Su
-$ pacman -S git
-$ pacman -S base-devel gcc vim cmake
 ```
 
-Note: If error message regarding, "Resource temporarily unavailable", perform close all Msys2 programs.
-Execute the autorebase.bat in msys2 folder.
+**Note:**<br>
+Likely you will see this message and will need to restart the Msys2 application.
+warning: terminate MSYS2 without returning to shell and check for updates again
+warning: for example close your terminal window instead of calling exit
+
+```Softwareinstallation
+# Synchronize and update all packages
+$ pacman -Su
+
+# Software tools installation
+$ pacman -S base-devel gcc vim cmake git
+```
 
 ```Git
+# Get the latest source code from GitHub
 $ git clone --recursive https://github.com/Infineon/personalize-optiga-trust-x
 ```
 
@@ -54,34 +63,55 @@ $ git clone --recursive https://github.com/Infineon/personalize-optiga-trust-x
 
 ```console
 Error Message:
-"Resource temporarily unavailable".
+$ git clone --recursive https://github.com/Infineon/personalize-optiga-trust-x
+Cloning into 'personalize-optiga-trust-x'...
+remote: Enumerating objects: 1087, done.
+remote: Total 1087 (delta 0), reused 0 (delta 0), pack-reused 1087
+Receiving objects: 100% (1087/1087), 4.59 MiB | 1.72 MiB/s, done.
+Resolving deltas: 100% (365/365), done.
+Checking out files: 100% (839/839), done.
+Submodule 'source/optiga_trust_x' (https://github.com/Infineon/optiga-trust-x) registered for path 'source/optiga_trust_x'
+Cloning into '/home/OptigaTrust/personalize-optiga-trust-x/source/optiga_trust_x'...
+      1 [main] git-remote-https 3328 child_info_fork::abort: C:\msys32\usr\bin\msys-unistring-2.dll: Loaded to different address: parent(0x840000) != child(0x800000)
+error: cannot fork() for fetch-pack: Resource temporarily unavailable
+fatal: clone of 'https://github.com/Infineon/optiga-trust-x' into submodule path '/home/OptigaTrust/personalize-optiga-trust-x/source/optiga_trust_x' failed
+Failed to clone 'source/optiga_trust_x'. Retry scheduled
+Cloning into '/home/OptigaTrust/personalize-optiga-trust-x/source/optiga_trust_x'...
+      1 [main] git-remote-https 3912 child_info_fork::abort: C:\msys32\usr\bin\msys-unistring-2.dll: Loaded to different address: parent(0x5B0000) != child(0x800000)
+error: cannot fork() for fetch-pack: Resource temporarily unavailable
+fatal: clone of 'https://github.com/Infineon/optiga-trust-x' into submodule path '/home/OptigaTrust/personalize-optiga-trust-x/source/optiga_trust_x' failed
+Failed to clone 'source/optiga_trust_x' a second time, aborting
 
 Workaround:
 Close all Msys2 programs.
-Execute msys32\autobase.bat
+Execute the autorebase.bat in msys32 folder.
 Re-run the git clone command.
 ```
 </details>
 
-## Build from sources
-Prior using the perso application note you need to build required executables from provided sources
-You can copy this repository to your embedded system using any available method (USB stick, SSH transfer, SCP, etc.)
-
+## Building the Sources
 
 ```console
-pi@raspberrypi:~ $ cd personalize-optiga-trust-x/source
-pi@raspberrypi:~/personalize-optiga-trust-x/source $ make
+# Remove the pre-built binary
+$ rm -Rf ../bin/libusb_win_x86/
+
+# build the source codes
+$ cd personalize-optiga-trust-x/source
+$ make libusb
 ```
+
+
 During building you should observe something similar
 <details>
-  <summary> OpenSSL TLS Server output</summary>
+  <summary> Expected output of Trust X compilation</summary>
 
 ```console
+$ make libusb
 mkdir -p ./build
-mkdir -p ./../executables
+mkdir -p ./../bin/libusb_win_x86
 make -C ./mbedtls-2.6.0/ no_test
-make[1]: Entering directory '/home/pi/personalize-optiga-trust-x/source/mbedtls-2.6.0'
-make[2]: Entering directory '/home/pi/personalize-optiga-trust-x/source/mbedtls-2.6.0/library'
+make[1]: Entering directory '/home/OptigaTrust/personalize-optiga-trust-x/source/mbedtls-2.6.0'
+make[2]: Entering directory '/home/OptigaTrust/personalize-optiga-trust-x/source/mbedtls-2.6.0/library'
   CC    aes.c
   CC    aesni.c
   CC    arc4.c
@@ -159,8 +189,8 @@ make[2]: Entering directory '/home/pi/personalize-optiga-trust-x/source/mbedtls-
   CC    ssl_tls.c
   AR    libmbedtls.a
   RL    libmbedtls.a
-make[2]: Leaving directory '/home/pi/personalize-optiga-trust-x/source/mbedtls-2.6.0/library'
-make[2]: Entering directory '/home/pi/personalize-optiga-trust-x/source/mbedtls-2.6.0/programs'
+make[2]: Leaving directory '/home/OptigaTrust/personalize-optiga-trust-x/source/mbedtls-2.6.0/library'
+make[2]: Entering directory '/home/OptigaTrust/personalize-optiga-trust-x/source/mbedtls-2.6.0/programs'
   CC    aes/aescrypt2.c
   CC    aes/crypt_and_hash.c
   CC    hash/hello.c
@@ -208,56 +238,74 @@ make[2]: Entering directory '/home/pi/personalize-optiga-trust-x/source/mbedtls-
   CC    x509/cert_req.c
   CC    x509/cert_write.c
   CC    x509/req_app.c
-make[2]: Leaving directory '/home/pi/personalize-optiga-trust-x/source/mbedtls-2.6.0/programs'
-make[1]: Leaving directory '/home/pi/personalize-optiga-trust-x/source/mbedtls-2.6.0'
+make[2]: Leaving directory '/home/OptigaTrust/personalize-optiga-trust-x/source/mbedtls-2.6.0/programs'
+make[1]: Leaving directory '/home/OptigaTrust/personalize-optiga-trust-x/source/mbedtls-2.6.0'
 Compiling optiga_trust_x/optiga/crypt/optiga_crypt.c
 Compiling optiga_trust_x/optiga/util/optiga_util.c
 Compiling optiga_trust_x/optiga/cmd/CommandLib.c
 Compiling optiga_trust_x/optiga/common/Logger.c
 Compiling optiga_trust_x/optiga/common/Util.c
-Compiling optiga_trust_x/optiga/comms/optiga_comms.c
 Compiling optiga_trust_x/optiga/comms/ifx_i2c/ifx_i2c.c
 Compiling optiga_trust_x/optiga/comms/ifx_i2c/ifx_i2c_config.c
 Compiling optiga_trust_x/optiga/comms/ifx_i2c/ifx_i2c_data_link_layer.c
 Compiling optiga_trust_x/optiga/comms/ifx_i2c/ifx_i2c_physical_layer.c
 Compiling optiga_trust_x/optiga/comms/ifx_i2c/ifx_i2c_transport_layer.c
-Compiling optiga_trust_x/pal/linux/pal.c
-Compiling optiga_trust_x/pal/linux/pal_gpio.c
-Compiling optiga_trust_x/pal/linux/pal_i2c.c
-Compiling optiga_trust_x/pal/linux/pal_ifx_i2c_config.c
-Compiling optiga_trust_x/pal/linux/pal_os_event.c
-Compiling optiga_trust_x/pal/linux/pal_os_lock.c
-Compiling optiga_trust_x/pal/linux/pal_os_timer.c
 Compiling json_parser/cJSON.c
 Compiling json_parser/JSON_parser.c
+Compiling optiga_trust_x/pal/libusb/optiga_comms_ifx_i2c_usb.c
+Compiling optiga_trust_x/pal/libusb/pal_common.c
+Compiling optiga_trust_x/pal/libusb/pal.c
+optiga_trust_x/pal/libusb/pal.c: In function ‘pal_init’:
+optiga_trust_x/pal/libusb/pal.c:84:16: warning: unused variable ‘strDesc’ [-Wunused-variable]
+  unsigned char strDesc[256];
+                ^~~~~~~
+optiga_trust_x/pal/libusb/pal.c:83:18: warning: unused variable ‘devs’ [-Wunused-variable]
+  libusb_device **devs; //pointer to pointer of device, used to retrieve a list of devices
+                  ^~~~
+optiga_trust_x/pal/libusb/pal.c:82:6: warning: unused variable ‘ftdi_dev’ [-Wunused-variable]
+  int ftdi_dev;
+      ^~~~~~~~
+optiga_trust_x/pal/libusb/pal.c:81:6: warning: unused variable ‘ftdi_dev_num’ [-Wunused-variable]
+  int ftdi_dev_num = 0;
+      ^~~~~~~~~~~~
+optiga_trust_x/pal/libusb/pal.c:80:10: warning: unused variable ‘k’ [-Wunused-variable]
+  ssize_t k; //for iterating through the list
+          ^
+optiga_trust_x/pal/libusb/pal.c:79:10: warning: unused variable ‘number_of_connected_devices’ [-Wunused-variable]
+  ssize_t number_of_connected_devices; //holding number of devices in list
+          ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+optiga_trust_x/pal/libusb/pal.c:77:37: warning: unused variable ‘dev_desc’ [-Wunused-variable]
+     struct libusb_device_descriptor dev_desc;
+                                     ^~~~~~~~
+Compiling optiga_trust_x/pal/libusb/pal_gpio.c
+Compiling optiga_trust_x/pal/libusb/pal_i2c.c
+Compiling optiga_trust_x/pal/libusb/pal_ifx_usb_config.c
+Compiling optiga_trust_x/pal/libusb/pal_os_event.c
+Compiling optiga_trust_x/pal/libusb/pal_os_lock.c
+Compiling optiga_trust_x/pal/libusb/pal_os_timer.c
 Compiling optiga_generate_csr.c
-optiga_generate_csr.c: In function ‘__optiga_sign_wrap’:
-optiga_generate_csr.c:88:35: warning: passing argument 1 of ‘optiga_crypt_ecdsa_sign’ discards ‘const’ qualifier from pointer target type [-Wdiscarded-qualifiers]
-  status = optiga_crypt_ecdsa_sign(hash, hash_len, optiga_key_id, der_signature, &ds_len);
-                                   ^~~~
-In file included from optiga_generate_csr.c:54:0:
-./optiga_trust_x/optiga/include/optiga/optiga_crypt.h:403:21: note: expected ‘uint8_t * {aka unsigned char *}’ but argument is of type ‘const unsigned char *’
- optiga_lib_status_t optiga_crypt_ecdsa_sign(uint8_t * digest,
-                     ^~~~~~~~~~~~~~~~~~~~~~~
-optiga_generate_csr.c:102:30: warning: format ‘%lu’ expects argument of type ‘long unsigned int’, but argument 2 has type ‘size_t {aka unsigned int}’ [-Wformat=]
-     mbedtls_printf( " Size %lu\n", *sig_len);
-                              ^
-Linking ../executables/optiga_generate_csr
+Linking build/optiga_generate_csr
 Compiling optiga_upload_crt.c
-Linking ../executables/optiga_upload_crt
+optiga_upload_crt.c:426:13: warning: ‘__print_hex’ defined but not used [-Wunused-function]
+ static void __print_hex (uint8_t *t)
+             ^~~~~~~~~~~
+Linking build/optiga_upload_crt
+cp ./optiga_trust_x/pal/libusb/include/libusb-1.0.dll  ./../bin/libusb_win_x86/
+cp ./build/optiga_generate_csr  ./../bin/libusb_win_x86/
+cp ./build/optiga_upload_crt  ./../bin/libusb_win_x86/
 ```
 </details>
 
-Your binaries are ready to be used and can be found in the folder executables in the root directory of your project
 
-## Usage examples for binaries
+## Creating the CSR using Trust X
 
 ```console
-pi@raspberrypi:~/personalize-optiga-trust-x/executables $ ./optiga_generate_csr -f /dev/i2c-1 -o optiga.csr -i ../IO_files/config.jsn
+# Generates a CSR using Trust X secret key. The parameters of the CSR can be found in config.jsn
+$ ../bin/libusb_win_x86/optiga_generate_csr -o ../IO_files/optiga.csr -i ../IO_files/config.jsn
 ```
 * `-f /dev/i2c-1` Path to the i2c device to which # Infineon's OPTIGA&trade; Trust X is connected
-* `-o optiga.csr` Path to a file, where a generated Certificate Signing Request will be stored
-* `-i ../IO_file/config.jsn` JSON config file to define your own Distiguished Name for the End-Device Certificate
+* `-o optiga.csr` Path to a file where a generated Certificate Signing Request will be stored
+* `-i ../IO_file/config.jsn` JSON configuration file to define your own Distinguished Name for the End-Device Certificate
 
 Example `config.jsn`:
 
@@ -271,17 +319,47 @@ Example `config.jsn`:
 ```
 
 <details>
-<summary>Potential Error Message</summary>
+<summary>Expected output</summary>
+
+```expectedoutput
+$ ../bin/libusb_win_x86/optiga_generate_csr -o ../IO_files/optiga.csr -i ../IO_files/config.jsn
+Data read:
+{
+        "CN":   "AWS IoT Certificate",
+        "O":    "Infineon Technologies AG",
+        "C":    "DE",
+        "ST":   "Germany"
+}
+CN=AWS IoT Certificate,O=Infineon Technologies AG,C=DE,ST=Germany
+OPTIGA(TM) Trust X initialized.
+Keypair generated.
+Public key is
+04FC84C0634328AD8F4CA5F95F1286B01882B1EA0C26F2B7D6399B2726C009E16BC82B479CB797CF781A75AF2D57450616EB676DC493FF91DFCE1906019
+  . Seeding the random number generator...
+  . Checking subject name...
+  . Loading the private key ...
+  . Writing the certificate request ...
+OPTIGA(TM) Trust X Signature generation
+3045022048904CCB0A9F4E9FB42E6DFDF6138995D38720F306D77C29F3DDD0D11189AAA2022100827382A7F703C21DC9B41B9F28424D644913DC07BB45Bize 71
+ok
+
 ```
-Error Message:
-3 [main] optiga_generate_csr (4788) C:\msys32\home\OptigaTrust\persont-x\bin\libusb_win_x86\optiga_generate_csr.exe: *** fatal error - cygheap bcted - 0x612C5410/0x612A5410.
-This problem is probably due to using incompatible versions of the cygwin D
+</details>
+
+<details>
+<summary>Potential Error Message and Workaround</summary>
+```error
+$ ../bin/libusb_win_x86/optiga_generate_csr -o ../IO_files/optiga.csr -i ../IO_files/config.jsn
+      4 [main] optiga_generate_csr (12728) C:\msys32\home\limtsesi\personalize-optiga-trust-x\bin\libusb_win_x86\optiga_gental error - cygheap base mismatch detected - 0x6129C408/0x612A5410.
+This problem is probably due to using incompatible versions of the cygwin DLL.
 Search for cygwin1.dll using the Windows Start->Find/Search facility
-and delete all but the most recent version.  The most recent version *shoul
+and delete all but the most recent version.  The most recent version *should*
 reside in x:\cygwin\bin, where 'x' is the drive on which you have
 installed the cygwin distribution.  Rebooting is also suggested if you
 are unable to find another cygwin DLL.
-Segmentation fault
+
+Workaround:
+Delete the output folder and rebuild the source code.
 ```
 </details>
 
