@@ -348,6 +348,7 @@ ok
 
 <details>
 <summary>Potential Error Message and Workaround</summary>
+
 ```error
 $ ../bin/libusb_win_x86/optiga_generate_csr -o ../IO_files/optiga.csr -i ../IO_files/config.jsn
       4 [main] optiga_generate_csr (12728) C:\msys32\home\limtsesi\personalize-optiga-trust-x\bin\libusb_win_x86\optiga_gental error - cygheap base mismatch detected - 0x6129C408/0x612A5410.
