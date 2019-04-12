@@ -528,7 +528,7 @@ Certificate successfully written
 <br>
 At this stage, Trust X has completed the personalization process.
 
-[Continues the AWS Thing registration using AWS CLI](#Create-a-Thing-using-AWS-CLI)
+[Continues the AWS Thing registration using AWS CLI](#Thing-Registration-using-AWS-CLI)
 
 ## Personalization in Linux Environment
 TBD
@@ -537,9 +537,6 @@ TBD
 TBD
 
 ## Thing Registration using AWS CLI
-
-
-## Create a Thing using AWS CLI
 Creates a Thing called “IoT_Object_With_Trust_X” and register on AWS IoT Core Registry
 
 ```create_thing
