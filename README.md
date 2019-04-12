@@ -31,6 +31,7 @@ This process can be performed using several methods:
 * Windows 7 and above. Note: Windows XP not supported.
 
 Download and run the installer [Msys2 "i686" for 32-bit Windows](https://www.msys2.org/)
+*Note: Even for a 64-bit system, it is recommended to get the 32-bit installer for a better user experience.*
 
 MSYS2 is based on Cygwin (POSIX compatibility layer) which enables Linux tools and software to be executed in Windows environment.
 
@@ -49,11 +50,12 @@ $ git clone --recursive https://github.com/Infineon/personalize-optiga-trust-x
 ```
 
 <details>
-<summary>Potential Error Message and Workaround</summary>
+<summary>Potential error message and workaround</summary>
 
 ```console
 Error Message:
 "Resource temporarily unavailable".
+
 Workaround:
 Close all Msys2 programs.
 Execute msys32\autobase.bat
