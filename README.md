@@ -1,32 +1,53 @@
-# Personalize your OPTIGA™ Trust X sample with Embedded Linux
+# Personalize a OPTIGA™ Trust X for Amazon AWS IoT Core
 
-## Description
+## Introduction to AWS IoT Thing Registration
 
-This repository contains one of Application Notes for [OPTIGA™ Trust X](www.infineon.com/optiga-trust-x) security chip.
+Amazon AWS IoT Core provides secure, bi-directional communication between Internet-connected devices such as sensors, actuators, embedded micro-controllers, or smart appliances and the AWS Cloud. This enables collection of telemetry data from multiple devices, and store and analyze the data.
 
-* You can find more information about the security chip in the core [repository](https://github.com/Infineon/optiga-trust-x)
-* You can find other Application Notes in the respective [repository](https://github.com/Infineon/appnotes-optiga-trust-x)
+A "Thing" is added to the AWS IoT registry through a registration process.
+This process consists of the following steps.
+1. Create a Thing in the AWS IoT Core registry
+2. Attach a digital certificate to the Thing
+3. Attach a policy to the Thing or certificate.
+
+The most important part of the "Thing" registration process is the credential registration. AWS IoT uses Public Key Cryptography for authentication and encrypting its communication channel. Each "Thing" must store their Private Key **securely**. The matching Public key must be registered with AWS IoT Core. AWS provides a method known as "Create with CSR". Using this method, a digital certificate is signed by AWS CA after verification that Public key matches the CSR digital signature. Using this process, it proves that Thing's owner indeed owns the private key without sending it over the internet.
+
+## Trust X Personalization
+Trust X can be used to securely store the AWS credential. This process is known as personalization.  
+The private and public key pair is generated internally within Trust X and private key **never** leaves the secure vault.
+
+This process can be performed using several methods:
+1. [Windows](# Personalization in Windows Environment)
+2. [Linux (TBD)](## Personalization in Linux Environment)
+3. MacOS (TBD)
+
+## Personalization in Windows Environment
+
+Download and run the installer [Msys2 "i686" for 32-bit Windows](https://www.msys2.org/)
+
 
 ## Summary
 In this guide you may find the following steps:
-* How to issue your own self-signed CA certificate with openSSL
+* How to issue your own self-signed CA certificate with MbedTLS
 * How to generate a Certificate Signing Request (CSR) with OPTIGA™ Trust X and sign it with the CA
 * How to generate an end-device certificate and write it back to one of available certificate slots on the device
 
 ## Hardware and Software
-For this application note you need to hav:
+For this application note you need to have:
 * Embedded Linux Platform with open GPIO and i2c interface
-* OPTIGA™ Trust X which is possile to connect to i2c lines on the Linux board
+* OPTIGA™ Trust X which is possible to connect to i2c lines on the Linux board
 
 ## Build from sources
 Prior using the perso application note you need to build required executables from provided sources
-YOu can copy this repository to youe mbedded system using any available method (USB stick, SSH transfer, SCP, etc.)
+You can copy this repository to your embedded system using any available method (USB stick, SSH transfer, SCP, etc.)
+
+
 ```console
 pi@raspberrypi:~ $ cd personalize-optiga-trust-x/source
 pi@raspberrypi:~/personalize-optiga-trust-x/source $ make
 ```
 During building you should observe something similar
-<details> 
+<details>
   <summary> OpenSSL TLS Server output</summary>
 
 ```console
@@ -201,7 +222,7 @@ Linking ../executables/optiga_upload_crt
 ```
 </details>
 
-Your binaries are reqdy to be used and can be found in the folder executables in the root directory of your project
+Your binaries are ready to be used and can be found in the folder executables in the root directory of your project
 
 ## Usage examples for binaries
 
@@ -237,6 +258,7 @@ pi@raspberrypi:~/personalize-optiga-trust-x/executables $ openssl x509 -in certi
 
 ```
 
+## Personalization in Linux Environment
 
 ## Contributing
 Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests to us.
