@@ -50,14 +50,13 @@ $ git clone --recursive https://github.com/Infineon/personalize-optiga-trust-x
 
 <details>
 <summary>Potential Error Message and Workaround</summary>
-```
+```console
 Error Message:
 "Resource temporarily unavailable".
 Workaround:
 Close all Msys2 programs.
 Execute msys32\autobase.bat
 Re-run the git clone command.
-
 ```
 </details>
 
