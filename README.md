@@ -17,8 +17,8 @@ Trust X can be used to securely store the AWS credential. This process is known 
 The private and public key pair is generated internally within Trust X and private key **never** leaves the secure vault.
 
 This process can be performed using several methods:
-1. [Windows](# Personalization in Windows Environment)
-2. [Linux (TBD)](## Personalization in Linux Environment)
+1. [Windows](#Personalization-in-Windows-Environment)
+2. [Linux (TBD)](#Personalization-in-Linux-Environment)
 3. MacOS (TBD)
 
 ## Personalization in Windows Environment
