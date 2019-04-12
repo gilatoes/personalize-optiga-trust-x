@@ -19,23 +19,47 @@ The private and public key pair is generated internally within Trust X and priva
 This process can be performed using several methods:
 1. [Windows](#Personalization-in-Windows-Environment)
 2. [Linux (TBD)](#Personalization-in-Linux-Environment)
-3. MacOS (TBD)
+3. [MacOS (TBD)](#Personalization-in-MacOS-Environment)
+
 
 ## Personalization in Windows Environment
 
+### Hardware and Software
+* FTDI FT260S USB to I2C convertor.
+* FTDI D2XX Driver [Driver for Windows](https://www.ftdichip.com/Drivers/D2XX.htm)
+* An unlocked OPTIGA™ Trust X
+* Windows 7 and above. Note: Windows XP not supported.
+
 Download and run the installer [Msys2 "i686" for 32-bit Windows](https://www.msys2.org/)
 
+MSYS2 is based on Cygwin (POSIX compatibility layer) which enables Linux tools and software to be executed in Windows environment.
 
-## Summary
-In this guide you may find the following steps:
-* How to issue your own self-signed CA certificate with MbedTLS
-* How to generate a Certificate Signing Request (CSR) with OPTIGA™ Trust X and sign it with the CA
-* How to generate an end-device certificate and write it back to one of available certificate slots on the device
+```SoftwareinstallationinMSYS2
+$ pacman -Syu
+$ pacman -Su
+$ pacman -S git
+$ pacman -S base-devel gcc vim cmake
+```
 
-## Hardware and Software
-For this application note you need to have:
-* Embedded Linux Platform with open GPIO and i2c interface
-* OPTIGA™ Trust X which is possible to connect to i2c lines on the Linux board
+Note: If error message regarding, "Resource temporarily unavailable", perform close all Msys2 programs.
+Execute the autorebase.bat in msys2 folder.
+
+```Git
+$ git clone --recursive https://github.com/Infineon/personalize-optiga-trust-x
+```
+
+<details>
+<summary>Potential Error Message and Workaround</summary>
+```
+Error Message:
+"Resource temporarily unavailable".
+Workaround:
+Close all Msys2 programs.
+Execute msys32\autobase.bat
+Re-run the git clone command.
+
+```
+</details>
 
 ## Build from sources
 Prior using the perso application note you need to build required executables from provided sources
@@ -244,6 +268,23 @@ Example `config.jsn`:
 }
 ```
 
+<details>
+<summary>Potential Error Message</summary>
+```
+Error Message:
+3 [main] optiga_generate_csr (4788) C:\msys32\home\OptigaTrust\persont-x\bin\libusb_win_x86\optiga_generate_csr.exe: *** fatal error - cygheap bcted - 0x612C5410/0x612A5410.
+This problem is probably due to using incompatible versions of the cygwin D
+Search for cygwin1.dll using the Windows Start->Find/Search facility
+and delete all but the most recent version.  The most recent version *shoul
+reside in x:\cygwin\bin, where 'x' is the drive on which you have
+installed the cygwin distribution.  Rebooting is also suggested if you
+are unable to find another cygwin DLL.
+Segmentation fault
+```
+</details>
+
+
+
 ```console
 pi@raspberrypi:~/personalize-optiga-trust-x/executables $ ./optiga_upload_crt -f /dev/i2c-1 -c certificate_in_der.der -o 0xE0E1
 ```
@@ -259,6 +300,10 @@ pi@raspberrypi:~/personalize-optiga-trust-x/executables $ openssl x509 -in certi
 ```
 
 ## Personalization in Linux Environment
+TBD
+
+## Personalization in MacOS Environment
+TBD
 
 ## Contributing
 Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests to us.
