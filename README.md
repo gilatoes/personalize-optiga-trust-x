@@ -98,6 +98,8 @@ warning: for example close your terminal window instead of calling exit
 ```
 </details>
 
+---
+
 ```Installation
 # Synchronize and update all packages
 $ pacman -Su
@@ -283,12 +285,18 @@ gpg: no need for a trustdb check
 ```
 </details>
 
+---
+
 ```Installation
 # Toolchain installation
 $ pacman -S base-devel gcc vim cmake git python2
 ```
+---
 
 [Install PIP instruction](https://docs.aws.amazon.com/cli/latest/userguide/install-linux.html)
+
+---
+
 
 ```GitHub
 # Get the latest source code from GitHub
@@ -311,6 +319,8 @@ Execute(double-click) the autorebase.bat in msys32 folder.
 Launch the MSYS2 and re-run the git clone command.
 ```
 </details>
+
+---
 
 ## Building the Trust X source code
 
