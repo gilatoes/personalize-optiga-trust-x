@@ -295,7 +295,7 @@ $ pacman -S base-devel gcc vim cmake git python2
 
 [Install PIP instruction](https://docs.aws.amazon.com/cli/latest/userguide/install-linux.html)
 
-<a href="https://docs.aws.amazon.com/cli/latest/userguide/install-linux.html" target="_blank">Install Python and PIP</a>
+<a href="https://docs.aws.amazon.com/cli/latest/userguide/install-linux.html" target="blank">Install Python and PIP</a>
 
 ---
 
