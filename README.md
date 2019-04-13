@@ -293,12 +293,37 @@ $ pacman -S base-devel gcc vim cmake git python2
 ```
 ---
 
+Installation of AWS CLI environment in Msys2
+[Skip AWS CLI Setup](#Get-and-build-the-Trust-X-source-code)
+
+These steps explains how to setup the AWS CLI.
+
+Use the curl command to download the installation script.
+```console
+$ curl -O https://bootstrap.pypa.io/get-pip.py
+
+$ python2 get-pip.py --user
+
+```
+Add an export command at the end of your profile script that's similar to the following example.
+
+
+export PATH=~/.local/bin:$PATH
+```console
+$ source ~/.bash_rc
+```
+
+Now you can test to verify that pip is installed correctly.
+
+```console
+$ pip --version
+```
+
+
 [Install PIP instruction](https://docs.aws.amazon.com/cli/latest/userguide/install-linux.html)
-
-<a href="https://docs.aws.amazon.com/cli/latest/userguide/install-linux.html" target="blank">Install Python and PIP</a>
-
 ---
 
+## Get and build the Trust X source code
 
 ```GitHub
 # Get the latest source code from GitHub
@@ -324,7 +349,6 @@ Launch the MSYS2 and re-run the git clone command.
 
 ---
 
-## Building the Trust X source code
 
 Remove the pre-build binaries.
 
