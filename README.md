@@ -295,6 +295,8 @@ $ pacman -S base-devel gcc vim cmake git python2
 
 [Install PIP instruction](https://docs.aws.amazon.com/cli/latest/userguide/install-linux.html)
 
+<a href="https://docs.aws.amazon.com/cli/latest/userguide/install-linux.html" target="_blank">Install Python and PIP</a>
+
 ---
 
 
@@ -327,10 +329,12 @@ Launch the MSYS2 and re-run the git clone command.
 Remove the pre-build binaries.
 
 ```console
-# go to the starting directory
+# Go to the starting directory
 $ cd personalize-optiga-trust-x/source
+
 # Remove the pre-built binary
 $ rm -Rf ../bin/libusb_win_x86/
+
 # build the source codes
 $ make libusb
 ```
