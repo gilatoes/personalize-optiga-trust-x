@@ -293,23 +293,35 @@ $ pacman -S base-devel gcc vim cmake git python2
 ```
 ---
 
-Installation of AWS CLI environment in Msys2
-[Skip AWS CLI Setup](#Get-and-build-the-Trust-X-source-code)
+#### Installation of AWS CLI environment in Msys2
+[Skip this section and go directly to Trust X source code setup](#Get-and-build-the-Trust-X-source-code)
 
-These steps explains how to setup the AWS CLI.
+These steps explains how to setup the AWS CLI. Installation of AWS CLI requires python and pip.
+
+#### Installation of PIP
+[Install PIP instruction](https://docs.aws.amazon.com/cli/latest/userguide/install-linux.html)
+
+Checks if your environment already has pip Installed. If command is not found means that pip must be installed.
+```console
+$ pip --version
+```
 
 Use the curl command to download the installation script.
 ```console
+# Download the pip helper
 $ curl -O https://bootstrap.pypa.io/get-pip.py
 
+# Get and install the pip
 $ python2 get-pip.py --user
 
 ```
+
 Add an export command at the end of your profile script that's similar to the following example.
 
-
 export PATH=~/.local/bin:$PATH
+
 ```console
+# Refresh your profile
 $ source ~/.bash_rc
 ```
 
@@ -319,8 +331,49 @@ Now you can test to verify that pip is installed correctly.
 $ pip --version
 ```
 
+#### Installation and uninstallation of AWS CLI
+[Skip this section and go directly to Trust X source code setup](#Get-and-build-the-Trust-X-source-code)
 
-[Install PIP instruction](https://docs.aws.amazon.com/cli/latest/userguide/install-linux.html)
+[Install AWS CLI instruction](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html)
+
+Install the AWS CLI by using the following Python pip command.
+
+```console
+# Installation of AWS CLI
+$ pip install awscli --upgrade --user
+```
+
+If you need to uninstall the AWS CLI, use pip uninstall.
+```console
+$ pip uninstall awscli
+```
+
+Test and check if you already has the AWS CLI install successfully.
+```console
+$ aws --version
+```
+
+#### Configuration of AWS Account using AWS CLI
+
+In order to perform any interaction with AWS cloud, the credential must be input using the aws configure command. Details of how to obtain those information can be found in the Quickly Configuring the AWS CLI link.
+
+[Quickly Configuring the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-configure.html)
+
+```console
+$ aws configure
+AWS Access Key ID [None]: XXXXXXXXXXXXXXXXXXXX
+AWS Secret Access Key [None]: XXXXXXXXXXXXX/XXXXXXX/XXXXXXXXXXXXXXXXX
+Default region name [None]: XXXXXXXX
+Default output format [None]: json
+```
+
+Once the credential is provided, you can check the current active region.
+
+```console
+# Get a description of the current connected endpoint
+$ aws iot describe-endpoint
+```
+
 ---
 
 ## Get and build the Trust X source code
