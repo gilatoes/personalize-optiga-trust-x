@@ -48,7 +48,59 @@ warning: for example close your terminal window instead of calling exit
 ```Softwareinstallation
 # Synchronize and update all packages
 $ pacman -Su
+```
+<details>
+<summary>Expected Output</summary>
 
+```console
+$ pacman -Syu
+:: Synchronizing package databases...
+ mingw32                                  542.1 KiB   45
+ mingw32.sig                              119.0   B  0.0
+ mingw64                                  543.0 KiB   97
+ mingw64.sig                              119.0   B  0.0
+ msys                                     180.4 KiB  187
+ msys.sig                                 119.0   B  0.0
+:: Starting core system upgrade...
+warning: terminate other MSYS2 programs before proceedin
+resolving dependencies...
+looking for conflicting packages...
+
+Packages (6) bash-4.4.023-1  filesystem-2018.12-1  mintt
+             pacman-mirrors-20180604-2
+
+Total Download Size:   20.37 MiB
+Total Installed Size:  69.39 MiB
+Net Upgrade Size:      13.06 MiB
+
+:: Proceed with installation? [Y/n] Y
+:: Retrieving packages...
+ msys2-runtime-2.11.2-1-i686                2.4 MiB   69
+ bash-4.4.023-1-i686                     1931.4 KiB   48
+ filesystem-2018.12-1-i686                 37.8 KiB  4.6
+ mintty-1~2.9.5-1-i686                    285.5 KiB   56
+ pacman-mirrors-20180604-2-any             10.7 KiB  3.4
+ pacman-5.1.2-2-i686       15.8 MiB   324K/s 00:50 100%9
+(6/6) checking keys in keyring                     100%
+(6/6) checking package integrity                   100%
+(6/6) loading package files                        100%
+(6/6) checking for file conflicts                  100%
+(6/6) checking available disk space                100%
+warning: could not get file information for opt/
+:: Processing package changes...
+(1/6) upgrading msys2-runtime                      100%
+(2/6) upgrading bash                               100%
+(3/6) upgrading filesystem                         100%
+(4/6) upgrading mintty                             100%
+(5/6) upgrading pacman-mirrors                     100%
+(6/6) upgrading pacman                             100%
+warning: terminate MSYS2 without returning to shell and check for updates again
+warning: for example close your terminal window instead of calling exit
+
+```
+</details>
+
+```tools
 # Software tools installation
 $ pacman -S base-devel gcc vim cmake git python2
 ```
