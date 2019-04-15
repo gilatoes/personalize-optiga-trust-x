@@ -32,40 +32,86 @@
 
 ROOT_DIR = .
 
-BIN_DIR =				$(ROOT_DIR)/../executables
-BUILD_DIR =				$(ROOT_DIR)/build
+OSFLAG :=
+ifeq ($(OS),Windows_NT)
+	OSFLAG = win
+	CCFLAGS += -D__WIN32__
+	ifeq ($(PROCESSOR_ARCHITECTURE),AMD64)
+		OSARCH = x86_64
+	endif
+	ifeq ($(PROCESSOR_ARCHITECTURE),x86)
+		OSARCH = x86
+	endif
+else
+	UNAME_S := $(shell uname -s)
+	ifeq ($(UNAME_S),Linux)
+		OSFLAG = linux
+	endif
+	ifeq ($(UNAME_S),Darwin)
+		OSFLAG = osx
+	endif
 
-OPTIGA_CORE_OBJECTS =	$(patsubst %.c, $(BUILD_DIR)/%.o, $(SOURCES))
-GEN_CSR_OBJECTS =		$(patsubst %.c, $(BUILD_DIR)/%.o, $(GEN_CSR_SOURCES))
-UPLOAD_CRT_OBJECTS =	$(patsubst %.c, $(BUILD_DIR)/%.o, $(UPLOAD_CRT_SOURCES))
+	UNAME_M := $(shell uname -m)
+	ifeq ($(UNAME_M),x86_64)
+		OSARCH = x86_64
+	endif
+		ifneq ($(filter %86,$(UNAME_M)),)
+			OSARCH = x86
+		endif
+	ifneq ($(filter arm%,$(UNAME_M)),)
+		OSARCH = arm
+	endif
+endif
 
-.PHONY: dir all clean
+BIN_DIR =              $(ROOT_DIR)/../bin/$(MAKECMDGOALS)_$(OSFLAG)_$(OSARCH)
+BUILD_DIR =            $(ROOT_DIR)/build
 
-all: dir mbedtls $(BIN_DIR)/optiga_generate_csr $(BIN_DIR)/optiga_upload_crt
+OPTIGA_CORE_OBJECTS =  $(patsubst %.c, $(BUILD_DIR)/%.o, $(SOURCES))
+ifeq ($(MAKECMDGOALS), libusb)
+PAL_OBJECTS =          $(patsubst %.c, $(BUILD_DIR)/%.o, $(PAL_LIBUSB_SOURCES))
+else
+PAL_OBJECTS =          $(patsubst %.c, $(BUILD_DIR)/%.o, $(PAL_LINUX_SOURCES))
+endif
+
+GEN_CSR_OBJECTS =      $(patsubst %.c, $(BUILD_DIR)/%.o, $(GEN_CSR_SOURCES))
+UPLOAD_CRT_OBJECTS =   $(patsubst %.c, $(BUILD_DIR)/%.o, $(UPLOAD_CRT_SOURCES))
+
+.PHONY: mkdirs all clean rpi3 ultra96 libusb cp_lib
+
+all: libusb
+
+rpi3 ultra96:  mkdirs mbedtls $(BUILD_DIR)/optiga_generate_csr $(BUILD_DIR)/optiga_upload_crt cp_lib
+libusb: mkdirs mbedtls $(BUILD_DIR)/optiga_generate_csr $(BUILD_DIR)/optiga_upload_crt cp_lib
 
 #Make application note
 
 #Create Directories for binaries and build
-dir:
+mkdirs:
 	$(MKDIR) -p $(BUILD_DIR)
 	$(MKDIR) -p $(BIN_DIR)
-	
+
+
+cp_lib:
+	-$(COPY) $(PAL_LIBUSB_DIR)/include/libusb-1.0.dll  $(BIN_DIR)/
+	$(COPY) $(BUILD_DIR)/optiga_generate_csr  $(BIN_DIR)/
+	$(COPY) $(BUILD_DIR)/optiga_upload_crt  $(BIN_DIR)/
+
 mbedtls:
 	$(MAKE) -C $(ROOT_DIR)/mbedtls-2.6.0/ no_test
 
 $(BUILD_DIR)/%.o: %.c
 	@echo Compiling $<
 	@mkdir -p $(dir $@)
-	@$(CC) $(CCFLAGS) $(INCLUDES) $(GEN_CSR_INCLUDES) -c $< -o $@
+	@$(CC) $(CCFLAGS) $(INCLUDES) $(PAL_LIBUSB_INCLUDES) $(PAL_LINUX_INCLUDES) $(GEN_CSR_INCLUDES) -c $< -o $@
 
-$(BIN_DIR)/optiga_generate_csr: $(OPTIGA_CORE_OBJECTS) $(GEN_CSR_OBJECTS)
+$(BUILD_DIR)/optiga_generate_csr: $(OPTIGA_CORE_OBJECTS) $(PAL_OBJECTS) $(GEN_CSR_OBJECTS)
 	@echo Linking $@
 	@$(CC) $^ $(LDFLAGS) $(LDLIBS) -o $@
-	
-$(BIN_DIR)/optiga_upload_crt: $(OPTIGA_CORE_OBJECTS) $(UPLOAD_CRT_OBJECTS)
+
+$(BUILD_DIR)/optiga_upload_crt: $(OPTIGA_CORE_OBJECTS) $(PAL_OBJECTS) $(UPLOAD_CRT_OBJECTS)
 	@echo Linking $@
 	@$(CC) $^ $(LDFLAGS) $(LDLIBS) -o $@
-	
+
 #Clean
-clean: 
-	$(CLEAN) -rf $(BUILD_DIR) $(BIN_DIR)
+clean:
+	-$(CLEAN) -rf $(BUILD_DIR)

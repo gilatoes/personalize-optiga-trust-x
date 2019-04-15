@@ -10,7 +10,7 @@ This process consists of the following steps.
 2. Attach a digital certificate to the Thing
 3. Attach a policy to the Thing or certificate.
 
-The most important part of the "Thing" registration process is the credential registration. AWS IoT uses Public Key Cryptography for authentication and encrypting its communication channel. Each "Thing" must store their Private Key **securely**. The matching Public key must be registered with AWS IoT Core. AWS provides a method known as "Create with CSR". Using this method, a digital certificate is signed by AWS CA after verification that Public key matches the CSR digital signature. Using this process, it proves that Thing's owner indeed owns the private key without sending it over the internet.
+One of the most important part of the "Thing" registration process is the credential registration. AWS IoT uses Public Key Cryptography for authentication and encrypting its communication channel. Each "Thing" must store their Private Key **securely**. The matching Public key must be registered with AWS IoT Core. AWS provides a method known as "Create with CSR". Using this method, a digital certificate is signed by AWS CA after verification that Public key matches the CSR digital signature. Using this process, it proves that Thing's owner indeed owns the private key without sending it over the internet.
 
 ## Trust X Personalization
 Trust X can be used to securely store the AWS credential. This process is known as personalization.  
@@ -18,6 +18,7 @@ The private and public key pair is generated internally within Trust X and priva
 
 This process can be performed using several methods:
 1. [Windows](#Personalization-in-Windows-Environment)
+2. [Embedded Linux e.g Raspberry Pi (TBD)](#Personalization-in-Embedded-Linux-Environment)
 2. [Linux (TBD)](#Personalization-in-Linux-Environment)
 3. [MacOS (TBD)](#Personalization-in-MacOS-Environment)
 
@@ -846,9 +847,28 @@ At this stage, Trust X has completed the personalization process.
 
 [Continues the AWS Thing registration using AWS CLI](#Thing-Registration-using-AWS-CLI)
 
-## Personalization in Linux Environment
+## Personalization in Embedded Linux Environment
 
-Installing the Trust X source
+### Hardware
+There are 2 methods of connecting Trust X to the system.
+1. Direct I2C connection to Raspberry Pi I2C port.
+2. Connection of Trust X I2C to FTDI FT260 I2C via Raspberry Pi USB port.
+
+Connection using FTDI USB-to-I2C adaptor
+* An unlocked OPTIGA™ Trust X
+* FTDI FT260S USB to I2C convertor.
+
+```console
+# Installation of linux libusb driver in RPI.
+$ apt-get install libusb-1.0-0-dev libusb-1.0-0
+```
+
+Connection to Raspberry Pi I2C port
+
+Wiring Pi library ??
+
+### Preparing the Software Environment
+Download and installing the Trust X source
 
 ```console
 # Install the Trust X source
@@ -860,6 +880,12 @@ $ cd personalize-optiga-trust-x/source
 $ make rpi3
 ```
 
+Script for
+```console
+```
+## Personalization in Linux Environment
+
+TBD
 
 
 ## Personalization in MacOS Environment
