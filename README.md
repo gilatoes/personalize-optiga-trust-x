@@ -533,7 +533,20 @@ At this stage, Trust X has completed the personalization process.
 [Continues the AWS Thing registration using AWS CLI](#Thing-Registration-using-AWS-CLI)
 
 ## Personalization in Linux Environment
-TBD
+
+Installing the Trust X source
+
+```console
+# Install the Trust X source
+$ git clone --recursive https://github.com/Infineon/personalize-optiga-trust-x
+```
+
+```console
+$ cd personalize-optiga-trust-x/source
+$ make rpi3
+```
+
+
 
 ## Personalization in MacOS Environment
 TBD

@@ -1,6 +1,8 @@
 {
-	"CN":	"AWS IoT Certificate",
-	"O":	"Xilinx Inc.",
-	"C":	"US",
-	"ST":	"United States"
+	"CN":	"AWS IoT Trust X Certificate",
+	"O":	"Infineon Technologies.",
+	"C":	"SG",
+	"ST":	"Singapore",
+    "ThingName": "AWS_Thing"
+        
 }
