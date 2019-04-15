@@ -867,6 +867,10 @@ Connection to Raspberry Pi I2C port
 
 Wiring Pi library ??
 
+```console
+$ Get the latest submodule
+# git submodule update --recursive
+```
 ### Preparing the Software Environment
 Download and installing the Trust X source
 
