@@ -1,3 +1,6 @@
 [submodule "source/optiga_trust_x"]
 	path = source/optiga_trust_x
 	url = https://github.com/Infineon/optiga-trust-x
+[submodule "source/optiga-trust-x"]
+	path = source/optiga-trust-x
+	url = https://github.com/Infineon/optiga-trust-x
