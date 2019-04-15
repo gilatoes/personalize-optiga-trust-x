@@ -24,38 +24,361 @@ This process can be performed using several methods:
 
 ## Personalization in Windows Environment
 
-### Hardware and Software
+### Hardware
 * FTDI FT260S USB to I2C convertor.
 * FTDI D2XX Driver [Driver for Windows](https://www.ftdichip.com/Drivers/D2XX.htm)
 * An unlocked OPTIGA™ Trust X
 * Windows 7 and above. Note: Windows XP not supported.
 
+### Preparing the Software Environment within MSYS2
+
 Download and run the installer [Msys2 "i686" for 32-bit Windows](https://www.msys2.org/)
 *Note: Even for a 64-bit system, it is recommended to get the 32-bit installer for a better user experience.*
 
-MSYS2 is based on Cygwin (POSIX compatibility layer) which enables Linux tools and software to be executed in Windows environment.
+MSYS2 is based on Cygwin (POSIX compatibility layer) which enables Linux tools and software to be executed in Windows environment.<br>
 
-```Softwareinstallation
+In the following instruction, "#" is the comments within the console which explains the meaning of the following command. Meanwhile, "$" is the command prompt followed by the console command. Note that the "$" is not required to be entered as the command.  
+
+```Installation
 # Synchronize, download a fresh copy of the master package database and update all packages
 $ pacman -Syu
 ```
 
 **Note:**<br>
-Likely you will see this message and will need to restart the Msys2 application.
+Refers to the output and you will need to restart the Msys2 application.
+
+<details>
+<summary>Expected Output</summary>
+
+```console
+$ pacman -Syu
+:: Synchronizing package databases...
+ mingw32                                  542.1 KiB   45
+ mingw32.sig                              119.0   B  0.0
+ mingw64                                  543.0 KiB   97
+ mingw64.sig                              119.0   B  0.0
+ msys                                     180.4 KiB  187
+ msys.sig                                 119.0   B  0.0
+:: Starting core system upgrade...
+warning: terminate other MSYS2 programs before proceedin
+resolving dependencies...
+looking for conflicting packages...
+
+Packages (6) bash-4.4.023-1  filesystem-2018.12-1  mintt
+             pacman-mirrors-20180604-2
+
+Total Download Size:   20.37 MiB
+Total Installed Size:  69.39 MiB
+Net Upgrade Size:      13.06 MiB
+
+:: Proceed with installation? [Y/n] Y
+:: Retrieving packages...
+ msys2-runtime-2.11.2-1-i686                2.4 MiB   69
+ bash-4.4.023-1-i686                     1931.4 KiB   48
+ filesystem-2018.12-1-i686                 37.8 KiB  4.6
+ mintty-1~2.9.5-1-i686                    285.5 KiB   56
+ pacman-mirrors-20180604-2-any             10.7 KiB  3.4
+ pacman-5.1.2-2-i686       15.8 MiB   324K/s 00:50 100%9
+(6/6) checking keys in keyring                     100%
+(6/6) checking package integrity                   100%
+(6/6) loading package files                        100%
+(6/6) checking for file conflicts                  100%
+(6/6) checking available disk space                100%
+warning: could not get file information for opt/
+:: Processing package changes...
+(1/6) upgrading msys2-runtime                      100%
+(2/6) upgrading bash                               100%
+(3/6) upgrading filesystem                         100%
+(4/6) upgrading mintty                             100%
+(5/6) upgrading pacman-mirrors                     100%
+(6/6) upgrading pacman                             100%
 warning: terminate MSYS2 without returning to shell and check for updates again
 warning: for example close your terminal window instead of calling exit
 
-```Softwareinstallation
+```
+</details>
+
+---
+
+```Installation
 # Synchronize and update all packages
 $ pacman -Su
+```
+<details>
+<summary>Expected Output</summary>
 
-# Software tools installation
+```console
+$$ pacman -Su
+:: Starting core system upgrade...
+ there is nothing to do
+:: Starting full system upgrade...
+resolving dependencies...
+looking for conflicting packages...
+
+Packages (62) bash-completion-2.8-2  brotli-1.0.7-1  bsdcpio-3.3.3-3  bsdtar-3.3.3-3
+              ca-certificates-20180409-1  coreutils-8.30-1  curl-7.64.0-2  dash-0.5.10.2-1  dtc-1.4.7-1
+              glib2-2.54.3-1  gnupg-2.2.13-1  gzip-1.10-1  heimdal-libs-7.5.0-3  icu-62.1-1  info-6.5-2
+              less-530-1  libarchive-3.3.3-3  libargp-20110921-2  libassuan-2.5.3-1  libcrypt-2.1-2
+              libcurl-7.64.0-2  libexpat-2.2.6-1  libffi-3.2.1-3  libgcrypt-1.8.4-1  libgnutls-3.6.6-2
+              libgpg-error-1.35-1  libgpgme-1.12.0-1  libhogweed-3.4.1-1  libidn2-2.1.1a-1  libksba-1.3.5-1
+              liblz4-1.8.3-1  liblzma-5.2.4-1  liblzo2-2.10-2  libnettle-3.4.1-1  libnghttp2-1.36.0-1
+              libnpth-1.6-1  libopenssl-1.1.1.b-1  libp11-kit-0.23.15-1  libpcre-8.43-1  libpcre16-8.43-1
+              libpcre32-8.43-1  libpcrecpp-8.43-1  libpcreposix-8.43-1  libpsl-0.20.2-3  libreadline-7.0.005-1
+              libsqlite-3.21.0-4  libssh2-1.8.0-2  libunistring-0.9.10-1  libutil-linux-2.32.1-1
+              libxml2-2.9.9-2  libxslt-1.1.33-2  mpfr-4.0.2-1  ncurses-6.1.20180908-1  nettle-3.4.1-1
+              openssl-1.1.1.b-1  p11-kit-0.23.15-1  pcre-8.43-1  pinentry-1.1.0-2  rebase-4.4.4-1  time-1.9-1
+              util-linux-2.32.1-1  xz-5.2.4-1
+
+Total Download Size:    33.18 MiB
+Total Installed Size:  188.92 MiB
+Net Upgrade Size:       61.26 MiB
+
+:: Proceed with installation? [Y/n] Y
+:: Retrieving packages...
+ bash-completion-2.8-2-any                190.0 KiB   195K/s 00:01 [####################################] 100%
+ libexpat-2.2.6-1-i686                     63.1 KiB   120K/s 00:01 [####################################] 100%
+ liblzma-5.2.4-1-i686                      82.1 KiB   153K/s 00:01 [####################################] 100%
+ liblz4-1.8.3-1-i686                       57.3 KiB   207K/s 00:00 [####################################] 100%
+ liblzo2-2.10-2-i686                       70.4 KiB   249K/s 00:00 [####################################] 100%
+ libhogweed-3.4.1-1-i686                  140.4 KiB   186K/s 00:01 [####################################] 100%
+ libnettle-3.4.1-1-i686                   106.8 KiB   205K/s 00:01 [####################################] 100%
+ coreutils-8.30-1-i686                      2.3 MiB   122K/s 00:20 [####################################] 100%
+ icu-62.1-1-i686                            7.6 MiB   449K/s 00:17 [####################################] 100%
+ ncurses-6.1.20180908-1-i686             1310.9 KiB  1351K/s 00:01 [####################################] 100%
+ libreadline-7.0.005-1-i686               267.0 KiB   220K/s 00:01 [####################################] 100%
+ libxml2-2.9.9-2-i686                     508.8 KiB   189K/s 00:03 [####################################] 100%
+ bsdcpio-3.3.3-3-i686                     814.4 KiB   379K/s 00:02 [####################################] 100%
+ bsdtar-3.3.3-3-i686                      855.5 KiB   584K/s 00:01 [####################################] 100%
+ libopenssl-1.1.1.b-1-i686               1079.3 KiB   751K/s 00:01 [####################################] 100%
+ openssl-1.1.1.b-1-i686                     2.8 MiB   660K/s 00:04 [####################################] 100%
+ libffi-3.2.1-3-i686                       35.3 KiB  4.31M/s 00:00 [####################################] 100%
+ libgpg-error-1.35-1-i686                 150.0 KiB  4.31M/s 00:00 [####################################] 100%
+ libgcrypt-1.8.4-1-i686                   432.3 KiB   587K/s 00:01 [####################################] 100%
+ libxslt-1.1.33-2-i686                    139.9 KiB   569K/s 00:00 [####################################] 100%
+ libpcre-8.43-1-i686                       93.3 KiB  3.65M/s 00:00 [####################################] 100%
+ glib2-2.54.3-1-i686                     1895.7 KiB   614K/s 00:03 [####################################] 100%
+ libcrypt-2.1-2-i686                       29.5 KiB  2.88M/s 00:00 [####################################] 100%
+ less-530-1-i686                          104.0 KiB  5.35M/s 00:00 [####################################] 100%
+ gzip-1.10-1-i686                          91.1 KiB  3.71M/s 00:00 [####################################] 100%
+ info-6.5-2-i686                          172.5 KiB   719K/s 00:00 [####################################] 100%
+ libp11-kit-0.23.15-1-i686                140.8 KiB   589K/s 00:00 [####################################] 100%
+ p11-kit-0.23.15-1-i686                   220.3 KiB   831K/s 00:00 [####################################] 100%
+ ca-certificates-20180409-1-any           345.0 KiB   704K/s 00:00 [####################################] 100%
+ brotli-1.0.7-1-i686                      277.9 KiB  1037K/s 00:00 [####################################] 100%
+ libsqlite-3.21.0-4-i686                  589.8 KiB   789K/s 00:01 [####################################] 100%
+ heimdal-libs-7.5.0-3-i686                767.9 KiB   773K/s 00:01 [####################################] 100%
+ libunistring-0.9.10-1-i686               526.9 KiB   735K/s 00:01 [####################################] 100%
+ libidn2-2.1.1a-1-i686                     93.3 KiB  4.34M/s 00:00 [####################################] 100%
+ libnghttp2-1.36.0-1-i686                  66.7 KiB  4.35M/s 00:00 [####################################] 100%
+ libpsl-0.20.2-3-i686                      70.4 KiB  3.82M/s 00:00 [####################################] 100%
+ libssh2-1.8.0-2-i686                     172.5 KiB   722K/s 00:00 [####################################] 100%
+ libcurl-7.64.0-2-i686                    249.0 KiB   973K/s 00:00 [####################################] 100%
+ curl-7.64.0-2-i686                       782.5 KiB   818K/s 00:01 [####################################] 100%
+ dash-0.5.10.2-1-i686                      78.2 KiB  3.82M/s 00:00 [####################################] 100%
+ dtc-1.4.7-1-i686                          88.5 KiB  3.46M/s 00:00 [####################################] 100%
+ libassuan-2.5.3-1-i686                    96.4 KiB  4.71M/s 00:00 [####################################] 100%
+ libgnutls-3.6.6-2-i686                  1150.1 KiB   954K/s 00:01 [####################################] 100%
+ libksba-1.3.5-1-i686                     114.2 KiB  3.60M/s 00:00 [####################################] 100%
+ libnpth-1.6-1-i686                        15.6 KiB  7.60M/s 00:00 [####################################] 100%
+ nettle-3.4.1-1-i686                       90.6 KiB  4.43M/s 00:00 [####################################] 100%
+ pinentry-1.1.0-2-i686                     52.5 KiB  3.01M/s 00:00 [####################################] 100%
+ gnupg-2.2.13-1-i686                     1948.8 KiB   797K/s 00:02 [####################################] 100%
+ libarchive-3.3.3-3-i686                  809.7 KiB   805K/s 00:01 [####################################] 100%
+ libargp-20110921-2-i686                   43.5 KiB  5.31M/s 00:00 [####################################] 100%
+ libgpgme-1.12.0-1-i686                   337.0 KiB   649K/s 00:01 [####################################] 100%
+ libpcre16-8.43-1-i686                     90.4 KiB  4.41M/s 00:00 [####################################] 100%
+ libpcre32-8.43-1-i686                     85.3 KiB  4.63M/s 00:00 [####################################] 100%
+ libpcrecpp-8.43-1-i686                    22.6 KiB  5.53M/s 00:00 [####################################] 100%
+ libpcreposix-8.43-1-i686                  15.3 KiB  4.97M/s 00:00 [####################################] 100%
+ libutil-linux-2.32.1-1-i686              253.2 KiB   530K/s 00:00 [####################################] 100%
+ mpfr-4.0.2-1-i686                        285.1 KiB   401K/s 00:01 [####################################] 100%
+ pcre-8.43-1-i686                         587.5 KiB   492K/s 00:01 [####################################] 100%
+ rebase-4.4.4-1-i686                      245.1 KiB   518K/s 00:00 [####################################] 100%
+ time-1.9-1-i686                           32.2 KiB  3.94M/s 00:00 [####################################] 100%
+ util-linux-2.32.1-1-i686                1360.8 KiB   476K/s 00:03 [####################################] 100%
+ xz-5.2.4-1-i686                          145.4 KiB   593K/s 00:00 [####################################] 100%
+(62/62) checking keys in keyring                                   [####################################] 100%
+(62/62) checking package integrity                                 [####################################] 100%
+(62/62) loading package files                                      [####################################] 100%
+(62/62) checking for file conflicts                                [####################################] 100%
+(62/62) checking available disk space                              [####################################] 100%
+warning: could not get file information for autorebasebase1st.bat
+:: Processing package changes...
+( 1/62) upgrading bash-completion                                  [####################################] 100%
+( 2/62) upgrading libexpat                                         [####################################] 100%
+( 3/62) upgrading liblzma                                          [####################################] 100%
+( 4/62) installing liblz4                                          [####################################] 100%
+( 5/62) upgrading liblzo2                                          [####################################] 100%
+( 6/62) installing libhogweed                                      [####################################] 100%
+( 7/62) upgrading libnettle                                        [####################################] 100%
+( 8/62) upgrading coreutils                                        [####################################] 100%
+( 9/62) upgrading icu                                              [####################################] 100%
+(10/62) upgrading ncurses                                          [####################################] 100%
+(11/62) upgrading libreadline                                      [####################################] 100%
+(12/62) upgrading libxml2                                          [####################################] 100%
+(13/62) upgrading bsdcpio                                          [####################################] 100%
+(14/62) upgrading bsdtar                                           [####################################] 100%
+(15/62) upgrading libopenssl                                       [####################################] 100%
+(16/62) upgrading openssl                                          [####################################] 100%
+(17/62) upgrading libffi                                           [####################################] 100%
+(18/62) upgrading libgpg-error                                     [####################################] 100%
+(19/62) upgrading libgcrypt                                        [####################################] 100%
+(20/62) upgrading libxslt                                          [####################################] 100%
+(21/62) upgrading libpcre                                          [####################################] 100%
+(22/62) upgrading glib2                                            [####################################] 100%
+(23/62) upgrading libcrypt                                         [####################################] 100%
+(24/62) upgrading less                                             [####################################] 100%
+(25/62) upgrading gzip                                             [####################################] 100%
+(26/62) upgrading info                                             [####################################] 100%
+(27/62) upgrading libp11-kit                                       [####################################] 100%
+(28/62) upgrading p11-kit                                          [####################################] 100%
+(29/62) upgrading ca-certificates                                  [####################################] 100%
+(30/62) installing brotli                                          [####################################] 100%
+(31/62) upgrading libsqlite                                        [####################################] 100%
+(32/62) upgrading heimdal-libs                                     [####################################] 100%
+(33/62) upgrading libunistring                                     [####################################] 100%
+(34/62) upgrading libidn2                                          [####################################] 100%
+(35/62) upgrading libnghttp2                                       [####################################] 100%
+(36/62) upgrading libpsl                                           [####################################] 100%
+(37/62) upgrading libssh2                                          [####################################] 100%
+(38/62) upgrading libcurl                                          [####################################] 100%
+(39/62) upgrading curl                                             [####################################] 100%
+(40/62) upgrading dash                                             [####################################] 100%
+(41/62) upgrading dtc                                              [####################################] 100%
+(42/62) upgrading libassuan                                        [####################################] 100%
+(43/62) installing libgnutls                                       [####################################] 100%
+(44/62) installing libksba                                         [####################################] 100%
+(45/62) installing libnpth                                         [####################################] 100%
+(46/62) installing nettle                                          [####################################] 100%
+(47/62) installing pinentry                                        [####################################] 100%
+(48/62) upgrading gnupg                                            [####################################] 100%
+==> Appending keys from msys2.gpg...
+gpg: Warning: using insecure memory!
+gpg: starting migration from earlier GnuPG versions
+gpg: porting secret keys from '/etc/pacman.d/gnupg/secring.gpg' to gpg-agent
+gpg: migration succeeded
+==> Locally signing trusted keys in keyring...
+  -> Locally signing key D55E7A6D7CE9BA1587C0ACACF40D263ECA25678A...
+  -> Locally signing key 123D4D51A1793859C2BE916BBBE514E53E0D0813...
+  -> Locally signing key B91BCF3303284BF90CC043CA9F418C233E652008...
+  -> Locally signing key 9DD0D4217D75A33B896159E6DA7EF2ABAEEA755C...
+==> Importing owner trust values...
+gpg: Warning: using insecure memory!
+==> Updating trust database...
+gpg: Warning: using insecure memory!
+gpg: no need for a trustdb check
+(49/62) upgrading libarchive                                       [####################################] 100%
+(50/62) upgrading libargp                                          [####################################] 100%
+(51/62) upgrading libgpgme                                         [####################################] 100%
+(52/62) upgrading libpcre16                                        [####################################] 100%
+(53/62) upgrading libpcre32                                        [####################################] 100%
+(54/62) upgrading libpcrecpp                                       [####################################] 100%
+(55/62) upgrading libpcreposix                                     [####################################] 100%
+(56/62) upgrading libutil-linux                                    [####################################] 100%
+(57/62) upgrading mpfr                                             [####################################] 100%
+(58/62) upgrading pcre                                             [####################################] 100%
+(59/62) upgrading rebase                                           [####################################] 100%
+(60/62) upgrading time                                             [####################################] 100%
+(61/62) upgrading util-linux                                       [####################################] 100%
+(62/62) upgrading xz                                               [####################################] 100%
+
+```
+</details>
+
+---
+
+```Installation
+# Toolchain installation
 $ pacman -S base-devel gcc vim cmake git python2
 ```
+---
 
+#### Installation of AWS CLI environment in Msys2
+[Skip this section and go directly to Trust X source code setup](#Get-and-build-the-Trust-X-source-code)
+
+These steps explains how to setup the AWS CLI. Installation of AWS CLI requires python and pip.
+
+#### Installation of PIP
 [Install PIP instruction](https://docs.aws.amazon.com/cli/latest/userguide/install-linux.html)
 
-```Git
+Checks if your environment already has pip Installed. If command is not found means that pip must be installed.
+```console
+$ pip --version
+```
+
+Use the curl command to download the installation script.
+```console
+# Download the pip helper
+$ curl -O https://bootstrap.pypa.io/get-pip.py
+
+# Get and install the pip
+$ python2 get-pip.py --user
+
+```
+
+Add an export command at the end of your profile script that's similar to the following example.
+
+export PATH=~/.local/bin:$PATH
+
+```console
+# Refresh your profile
+$ source ~/.bash_rc
+```
+
+Now you can test to verify that pip is installed correctly.
+
+```console
+$ pip --version
+```
+
+#### Installation and uninstallation of AWS CLI
+[Skip this section and go directly to Trust X source code setup](#Get-and-build-the-Trust-X-source-code)
+
+[Install AWS CLI instruction](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html)
+
+Install the AWS CLI by using the following Python pip command.
+
+```console
+# Installation of AWS CLI
+$ pip install awscli --upgrade --user
+```
+
+If you need to uninstall the AWS CLI, use pip uninstall.
+```console
+$ pip uninstall awscli
+```
+
+Test and check if you already has the AWS CLI install successfully.
+```console
+$ aws --version
+```
+
+#### Configuration of AWS Account using AWS CLI
+
+In order to perform any interaction with AWS cloud, the credential must be input using the aws configure command. Details of how to obtain those information can be found in the Quickly Configuring the AWS CLI link.
+
+[Quickly Configuring the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-configure.html)
+
+```console
+$ aws configure
+AWS Access Key ID [None]: XXXXXXXXXXXXXXXXXXXX
+AWS Secret Access Key [None]: XXXXXXXXXXXXX/XXXXXXX/XXXXXXXXXXXXXXXXX
+Default region name [None]: XXXXXXXX
+Default output format [None]: json
+```
+
+Once the credential is provided, you can check the current active region.
+
+```console
+# Get a description of the current connected endpoint
+$ aws iot describe-endpoint
+```
+
+---
+
+## Get and build the Trust X source code
+
+```GitHub
 # Get the latest source code from GitHub
 $ git clone --recursive https://github.com/Infineon/personalize-optiga-trust-x
 ```
@@ -67,38 +390,29 @@ $ git clone --recursive https://github.com/Infineon/personalize-optiga-trust-x
 Error Message:
 $ git clone --recursive https://github.com/Infineon/personalize-optiga-trust-x
 Cloning into 'personalize-optiga-trust-x'...
-remote: Enumerating objects: 1087, done.
-remote: Total 1087 (delta 0), reused 0 (delta 0), pack-reused 1087
-Receiving objects: 100% (1087/1087), 4.59 MiB | 1.72 MiB/s, done.
-Resolving deltas: 100% (365/365), done.
-Checking out files: 100% (839/839), done.
-Submodule 'source/optiga_trust_x' (https://github.com/Infineon/optiga-trust-x) registered for path 'source/optiga_trust_x'
-Cloning into '/home/OptigaTrust/personalize-optiga-trust-x/source/optiga_trust_x'...
-      1 [main] git-remote-https 3328 child_info_fork::abort: C:\msys32\usr\bin\msys-unistring-2.dll: Loaded to different address: parent(0x840000) != child(0x800000)
+      1 [main] git-remote-https 14880 child_info_fork::abort: C:\msys32\usr\bin\msys-unistring-2.dll: Loaded to different address: parent(0xFD0000) != child(0x1020000)
 error: cannot fork() for fetch-pack: Resource temporarily unavailable
-fatal: clone of 'https://github.com/Infineon/optiga-trust-x' into submodule path '/home/OptigaTrust/personalize-optiga-trust-x/source/optiga_trust_x' failed
-Failed to clone 'source/optiga_trust_x'. Retry scheduled
-Cloning into '/home/OptigaTrust/personalize-optiga-trust-x/source/optiga_trust_x'...
-      1 [main] git-remote-https 3912 child_info_fork::abort: C:\msys32\usr\bin\msys-unistring-2.dll: Loaded to different address: parent(0x5B0000) != child(0x800000)
-error: cannot fork() for fetch-pack: Resource temporarily unavailable
-fatal: clone of 'https://github.com/Infineon/optiga-trust-x' into submodule path '/home/OptigaTrust/personalize-optiga-trust-x/source/optiga_trust_x' failed
-Failed to clone 'source/optiga_trust_x' a second time, aborting
 
 Workaround:
 Close all Msys2 programs.
-Execute the autorebase.bat in msys32 folder.
-Re-run the git clone command.
+Execute(double-click) the autorebase.bat in msys32 folder.
+Launch the MSYS2 and re-run the git clone command.
 ```
 </details>
 
-## Building the Sources
+---
+
+
+Remove the pre-build binaries.
 
 ```console
+# Go to the starting directory
+$ cd personalize-optiga-trust-x/source
+
 # Remove the pre-built binary
 $ rm -Rf ../bin/libusb_win_x86/
 
 # build the source codes
-$ cd personalize-optiga-trust-x/source
 $ make libusb
 ```
 
@@ -298,7 +612,6 @@ cp ./build/optiga_upload_crt  ./../bin/libusb_win_x86/
 ```
 </details>
 
-
 ## Creating the CSR using Trust X
 
 ```console
@@ -362,14 +675,15 @@ installed the cygwin distribution.  Rebooting is also suggested if you
 are unable to find another cygwin DLL.
 
 Workaround:
-Delete the output folder and rebuild the source code.
+Remove the pre-built binary from GitHub is removed.
+Rebuild the source code.
 ```
 </details>
 
 
 ```console
 # Verfies the CSR.
-$ openssl req -text -noout -verify -in optiga.csr
+$ openssl req -text -noout -verify -in ../IO_files/optiga.csr
 ```
 
 <details>
