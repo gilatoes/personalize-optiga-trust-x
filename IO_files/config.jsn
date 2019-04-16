@@ -1,8 +1,7 @@
 {
 	"CN":	"AWS IoT Trust X Certificate",
-	"O":	"Infineon Technologies.",
-	"C":	"SG",
-	"ST":	"Singapore",
+	"O":	"Infineon Technologies AG",
+	"C":	"DE",
+	"ST":	"Germany",
   "ThingName": "AWS_Thing"
-
 }
