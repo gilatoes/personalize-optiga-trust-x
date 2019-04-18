@@ -1,7 +1,5 @@
 # Personalize your OPTIGA™ Trust X for AWS IoT Core
 
-## Description
-
 [Go to Trust X Personalization Wiki here](https://github.com/gilatoes/personalize-optiga-trust-x/wiki)
 
 ## Contributing
