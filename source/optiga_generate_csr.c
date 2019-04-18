@@ -60,15 +60,23 @@
 /* JSON parser includes */
 #include "JSON_parser.h"
 
-/**
- * Callback when optiga_util_xxxx operation is completed asynchronously
- */
-optiga_comms_t optiga_comms = {(void*)&ifx_i2c_context_0,NULL,NULL, OPTIGA_COMMS_SUCCESS};
-uint16_t POID = 0;
-char * i2c_if;
 
 extern void pal_gpio_init(void);
 extern void pal_gpio_deinit(void);
+extern pal_status_t pal_init(void);
+
+#ifdef USE_LIBUSB_PAL
+extern ifx_i2c_context_t ifx_i2c_context_1;
+#define IFX_I2C_CONTEXT ifx_i2c_context_1
+#else
+extern ifx_i2c_context_t ifx_i2c_context_0;
+#define IFX_I2C_CONTEXT ifx_i2c_context_0
+#endif
+
+optiga_comms_t optiga_comms = {(void*)&IFX_I2C_CONTEXT, NULL,NULL, OPTIGA_COMMS_SUCCESS};
+uint16_t POID = 0;
+
+char * i2c_if;
 
 int __optiga_sign_wrap( void *ctx, mbedtls_md_type_t md_alg,
                       const unsigned char *hash, size_t hash_len,
@@ -85,34 +93,34 @@ int __optiga_sign_wrap( void *ctx, mbedtls_md_type_t md_alg,
 	if (optiga_key_id == 0)
 		optiga_key_id = OPTIGA_KEY_STORE_ID_E0F1;
 	
-	status = optiga_crypt_ecdsa_sign(hash, hash_len, optiga_key_id, der_signature, &ds_len);
+	status = optiga_crypt_ecdsa_sign((uint8_t*)hash, hash_len, optiga_key_id, der_signature, &ds_len);
 	if (OPTIGA_LIB_SUCCESS != status)
-    {
-        //Key pair generation failed
-        return 1;
-    }
+	{
+        	//Key pair generation failed
+        	return 1;
+	}
 	
 	sig[0] = 0x30;
-    sig[1] = ds_len;
+	sig[1] = ds_len;
 	memcpy(sig + 2, der_signature, ds_len);
-    *sig_len = 2 + ds_len;
+	*sig_len = 2 + ds_len;
 
-    for(int i = 0; i < *sig_len; i++ )
-        mbedtls_printf("%c%c", "0123456789ABCDEF" [sig[i] / 16], "0123456789ABCDEF" [sig[i] % 16] );
-    mbedtls_printf( " Size %lu\n", *sig_len);
+	for(int i = 0; i < *sig_len; i++ )
+        	mbedtls_printf("%c%c", "0123456789ABCDEF" [sig[i] / 16], "0123456789ABCDEF" [sig[i] % 16] );
+	mbedtls_printf( " Size %zu\n", *sig_len);
 	
 	return 0;
 }
 
 const mbedtls_pk_info_t mbedtls_ecdsa_optiga_info = {
 	MBEDTLS_PK_ECKEY,
-    "ECDSA",
+	"ECDSA",
 	NULL,
 	NULL,
 	NULL,
 	__optiga_sign_wrap,
-    NULL,
-    NULL,
+	NULL,
+	NULL,
 	NULL,
 	NULL,
 	NULL,
@@ -123,28 +131,28 @@ int __write_csr( mbedtls_x509write_csr *req, const char *output_file,
                                int (*f_rng)(void *, unsigned char *, size_t),
                                void *p_rng )
 {
-    int ret;
-    FILE *f;
-    unsigned char output_buf[4096];
-    size_t len = 0;
+	int ret;
+	FILE *f;
+	unsigned char output_buf[4096];
+	size_t len = 0;
 
-    memset( output_buf, 0, 4096 );
-    if( ( ret = mbedtls_x509write_csr_pem( req, output_buf, 4096, f_rng, p_rng ) ) < 0 )
-        return( ret );
+	memset( output_buf, 0, 4096 );
+	if( ( ret = mbedtls_x509write_csr_pem( req, output_buf, 4096, f_rng, p_rng ) ) < 0 )
+		return( ret );
 
-    len = strlen( (char *) output_buf );
+	len = strlen( (char *) output_buf );
 
-    if( ( f = fopen( output_file, "w+" ) ) == NULL )
-        return( -1 );
+	if( ( f = fopen( output_file, "w+" ) ) == NULL )
+		return( -1 );
 
-    if( fwrite( output_buf, 1, len, f ) != len )
-    {
-        fclose( f );
-        return( -1 );
-    }
+	if( fwrite( output_buf, 1, len, f ) != len )
+	{
+		fclose( f );
+		return( -1 );
+	}
 
-    fclose( f );
-    return( 0 );
+	fclose( f );
+	return( 0 );
 }
 
 static int32_t __optiga_init(void)
@@ -155,6 +163,8 @@ static int32_t __optiga_init(void)
 	{
 		pal_gpio_init();
 		pal_os_event_init();
+		if (pal_init() != PAL_STATUS_SUCCESS)
+			break;
 
 		status = optiga_util_open_application(&optiga_comms);
 		if(OPTIGA_LIB_SUCCESS != status)
@@ -237,9 +247,9 @@ static void __mbedtls_dump_pubkey( const char *title, mbedtls_ecdsa_context *key
     }
 
 	mbedtls_printf( "%s", title );
-    for( i = 0; i < len; i++ )
-        mbedtls_printf("%c%c", "0123456789ABCDEF" [buf[i] / 16], "0123456789ABCDEF" [buf[i] % 16] );
-    mbedtls_printf( "\n" );
+	for( i = 0; i < len; i++ )
+		mbedtls_printf("%c%c", "0123456789ABCDEF" [buf[i] / 16], "0123456789ABCDEF" [buf[i] % 16] );
+	mbedtls_printf( "\n" );
 }
 
 
@@ -248,11 +258,11 @@ static void __mbedtls_dump_pubkey( const char *title, mbedtls_ecdsa_context *key
 void usage(void){
   fprintf(stderr,
       " usage:\n"
-      "    ./optiga_generate_csr -f i2c_path -o file -i json_file [-p  cert_oid] [-r perso_string]\n"
-      "       -f  i2c_path:         Path to i2c intreface; e.g. -f /dev/i2c-0 \n" 
+      "    ./optiga_generate_csr -o file -i json_file [-f  i2c_path] [-p  cert_oid] [-r perso_string]\n"
       "       -i  json_file:        Path to input-file. It contains information about the certificate requestor.\n"
       "       -o  file:             Path to output-file. If file does not exist, it will be automatically created.\n"
-      "       -p  cert_oid:         Select Object ID to store new private key within OPTIGA(TM) Trust X.\n"
+      "       -f  i2c_path          Path to i2c intreface; e.g. -f /dev/i2c-0 \n" 
+      "       -p  private_key_oid:  Select an Object ID to store a new private key within OPTIGA(TM) Trust X.\n"
       "                             Can be 0xE0F1, 0xE0F2, 0xE0F3. 0xE0F1 is used by default\n"
       "       -r  perso_string:     Add you personalisation information to randomise a random number generator.\n"
       "                             All strings followed after 16 characters are silently ignored \n"\
@@ -288,24 +298,23 @@ int32_t main(int argc, char ** argv)
 	int c;
 
 	/* Parse arguments of function call */
-	if(argc < 7) {
+	if(argc < 5) {
 		usage();
 		return EXIT_FAILURE;
 	}	
 	
-	while((c = getopt (argc, argv, "i:o:f:p:r")) != -1) {
+	while((c = getopt (argc, argv, "i:f:o:p:r")) != -1) {
 		switch(c) {
+		case 'f':
+			i2c_if = optarg;
+			break;
 		case 'i':
 			file_str = optarg;
 			break;
 		case 'o':
 			output_file = optarg;
 			break;
-		case 'f':
-			i2c_if = optarg;
-			break;
 		case 'p':
-			output_file = optarg;
 			if (strcmp(optarg, "0xE0F1") == 0) {
 				POID = 0xE0F1;
 			} else if (strcmp(optarg, "0xE0F2") == 0) {
@@ -330,9 +339,6 @@ int32_t main(int argc, char ** argv)
 				fprintf(stderr, "Option -%i requires an argument. \n", optopt);
 			}
 			else if(optopt == 'o') {
-				fprintf(stderr, "Option -%i requires an argument. \n", optopt);
-			}
-			else if(optopt == 'f') {
 				fprintf(stderr, "Option -%i requires an argument. \n", optopt);
 			}
 			else if (isprint(optopt)) {
