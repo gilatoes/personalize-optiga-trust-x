@@ -2,7 +2,7 @@
 
 ## Description
 
-(Go to Trust X Personalization Wiki here)[https://github.com/gilatoes/personalize-optiga-trust-x/wiki]
+[Go to Trust X Personalization Wiki here](https://github.com/gilatoes/personalize-optiga-trust-x/wiki)
 
 ## Contributing
 Please read [CONTRIBUTING.md](https://github.com/Infineon/optiga-trust-x/blob/master/CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests to us.
