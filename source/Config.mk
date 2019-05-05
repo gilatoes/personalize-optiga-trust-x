@@ -113,7 +113,7 @@ UPLOAD_CRT_SOURCES=  $(UPLOAD_CRT_DIR)/optiga_upload_crt.c
 
 # Generate CSR application header file dependencies
 UPLOAD_CRT_INCLUDES=-I$(UPLOAD_CRT_DIR) \
-                    -I$(ROOT_DIR)/mbedtls-2.6.0/include
+                    -I$(ROOT_DIR)/mbedtls-2.16.0/include
 
 CCFLAGS =           -g -Wall -DPAL_OS_HAS_EVENT_INIT
 
