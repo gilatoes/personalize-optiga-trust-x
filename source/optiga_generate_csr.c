@@ -112,11 +112,26 @@ int __optiga_sign_wrap( void *ctx, mbedtls_md_type_t md_alg,
 	return 0;
 }
 
+int __can_do( mbedtls_pk_type_t type)
+{
+	printf(">__can_do()\r\n");
+	
+	if(type == MBEDTLS_PK_ECDSA)
+	{
+		printf("<__can_do()\r\n");
+		return 1;
+	}
+	else
+	{	printf("<__can_do()\r\n");
+		return 0;
+	}
+}
+
 const mbedtls_pk_info_t mbedtls_ecdsa_optiga_info = {
 	MBEDTLS_PK_ECKEY,
 	"ECDSA",
 	NULL,
-	NULL,
+	__can_do,
 	NULL,
 	__optiga_sign_wrap,
 	NULL,

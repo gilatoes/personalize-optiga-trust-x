@@ -31,6 +31,8 @@
 -include Config.mk
 
 ROOT_DIR = .
+#VERBOSE = 
+VERBOSE = @
 
 OSFLAG :=
 ifeq ($(OS),Windows_NT)
@@ -97,21 +99,24 @@ cp_lib:
 	$(COPY) $(BUILD_DIR)/optiga_upload_crt  $(BIN_DIR)/
 
 mbedtls:
-	$(MAKE) -C $(ROOT_DIR)/mbedtls-2.6.0/ no_test
+	$(MAKE) -C $(ROOT_DIR)/mbedtls-2.16.0/ no_test
 
 $(BUILD_DIR)/%.o: %.c
-	@echo Compiling $<
-	@mkdir -p $(dir $@)
-	@$(CC) $(CCFLAGS) $(INCLUDES) $(PAL_LIBUSB_INCLUDES) $(PAL_LINUX_INCLUDES) $(GEN_CSR_INCLUDES) -c $< -o $@
+	$(VERBOSE)echo Compiling $<
+	$(VERBOSE)mkdir -p $(dir $@)
+	$(VERBOSE)$(CC) $(CCFLAGS) $(INCLUDES) $(PAL_LIBUSB_INCLUDES) $(PAL_LINUX_INCLUDES) $(GEN_CSR_INCLUDES) -c $< -o $@
 
 $(BUILD_DIR)/optiga_generate_csr: $(OPTIGA_CORE_OBJECTS) $(PAL_OBJECTS) $(GEN_CSR_OBJECTS)
-	@echo Linking $@
-	@$(CC) $^ $(LDFLAGS) $(LDLIBS) -o $@
+	$(VERBOSE)echo Linking $@
+	$(VERBOSE)$(CC) $^ $(LDFLAGS) $(LDLIBS) -o $@
 
 $(BUILD_DIR)/optiga_upload_crt: $(OPTIGA_CORE_OBJECTS) $(PAL_OBJECTS) $(UPLOAD_CRT_OBJECTS)
-	@echo Linking $@
-	@$(CC) $^ $(LDFLAGS) $(LDLIBS) -o $@
+	$(VERBOSE)echo Linking $@
+	$(VERBOSE)$(CC) $^ $(LDFLAGS) $(LDLIBS) -o $@
 
 #Clean
 clean:
 	-$(CLEAN) -rf $(BUILD_DIR)
+	rm -rf $(ROOT_DIR)/mbedtls-2.16.0/library/*.o
+	rm -rf $(ROOT_DIR)/mbedtls-2.16.0/library/*.a
+	find $(ROOT_DIR)/mbedtls-2.16.0/ -name *.exe -type f -delete

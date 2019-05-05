@@ -103,7 +103,7 @@ GEN_CSR_SOURCES=     $(GEN_CSR_DIR)/optiga_generate_csr.c
 
 # Generate CSR application header file dependencies
 GEN_CSR_INCLUDES=    -I$(GEN_CSR_DIR) \
-                     -I$(ROOT_DIR)/mbedtls-2.6.0/include
+                     -I$(ROOT_DIR)/mbedtls-2.16.0/include
 
 # Directory with the Upload Generated Certificate
 UPLOAD_CRT_DIR =     $(ROOT_DIR)
@@ -117,7 +117,7 @@ UPLOAD_CRT_INCLUDES=-I$(UPLOAD_CRT_DIR) \
 
 CCFLAGS =           -g -Wall -DPAL_OS_HAS_EVENT_INIT
 
-LDFLAGS =           -L$(ROOT_DIR)/mbedtls-2.6.0/library/
+LDFLAGS =           -L$(ROOT_DIR)/mbedtls-2.16.0/library/
 LDLIBS  =           -lmbedtls -lmbedx509 -lmbedcrypto
 
 ifeq ($(MAKECMDGOALS), libusb)
