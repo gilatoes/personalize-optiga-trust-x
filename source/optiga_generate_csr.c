@@ -112,17 +112,17 @@ int __optiga_sign_wrap( void *ctx, mbedtls_md_type_t md_alg,
 	return 0;
 }
 
-int __can_do( mbedtls_pk_type_t type)
+0int __can_do( mbedtls_pk_type_t type)
 {
-	printf(">__can_do()\r\n");
+	//printf(">__can_do()\r\n");
 	
 	if(type == MBEDTLS_PK_ECDSA)
 	{
-		printf("<__can_do()\r\n");
+		//printf("<__can_do()\r\n");
 		return 1;
 	}
 	else
-	{	printf("<__can_do()\r\n");
+	{	//printf("<__can_do()\r\n");
 		return 0;
 	}
 }
